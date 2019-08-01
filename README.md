@@ -6,18 +6,24 @@ by the new function builders feature in Swift 5.1.
 ## Example
 
 ```swift
-Do {
-  Action { print("Starting...") }
+func createImageTask(_ completion: @escaping (Data) -> Void) -> Task {
+  Do {
+    Action { print("Starting...") }
 
-  LoadBigImageTask()
-  Action { print("Load big image task finished!") }
+    LoadBigImageTask()
+    Action { print("Load big image task finished!") }
 
-  Passthrough(task: VeryBigImageTask()) { task in
-    Action { completion(task.imageData) }
+    Passthrough(task: VeryBigImageTask()) { task in
+      Action { completion(task.imageData) }
+    }
+
+    Action { print("All done!") }
   }
-
-  Action { print("All done!") }
 }
+
+let queue = OperationQueue()
+let task = createImageTask { print($0) }
+queue.addTask(task)
 ```
 
 ## Basics
