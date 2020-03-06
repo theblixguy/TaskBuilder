@@ -7,15 +7,20 @@
 
 import Foundation
 
-struct Do: Task {
-	let task: () -> Task
-	var completionBlock: Completion = nil
+/// A top-level `Task` that can contain other tasks, but not itself.
+public struct Do: TopLevelTask {
+	public let task: () -> Task
+	public var completionBlock: Completion {
+		get { fatalError("You must not call the getter") }
+		set { fatalError("You must not call the setter") }
+	}
 
-	init(@TaskBuilder task: @escaping () -> Task) {
+	public init(@TaskBuilder task: @escaping () -> Task) {
 		self.task = task
 	}
 
-	func perform() {
-		fatalError("Do not call")
+	public func perform() {
+		let task = self.task()
+		task.perform()
 	}
 }

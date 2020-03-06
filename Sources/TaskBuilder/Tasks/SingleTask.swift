@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class SingleTask: Task {
-	var task: Task
+internal final class SingleTask: Task {
+	private(set) var task: Task
 	var completionBlock: Completion
 
 	init(task: Task, completionBlock: Completion = nil) {

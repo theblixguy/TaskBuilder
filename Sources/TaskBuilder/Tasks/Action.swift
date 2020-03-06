@@ -7,14 +7,18 @@
 
 import Foundation
 
-final class Action: Task {
-	var completionBlock: Completion
+/// A `Task` that represents an action, such as calling a method, posting a notification, etc.
+/// It cannot execute another `Task` or return a value.
+public final class Action: Task {
+	public var completionBlock: Completion = nil
+	private let blockToExecute: Completion
 
-	init(completionBlock: Completion = nil) {
-		self.completionBlock = completionBlock
+	public init(_ blockToExecute: Completion = nil) {
+		self.blockToExecute = blockToExecute
 	}
 
-	func perform() {
+	public func perform() {
+		blockToExecute?()
 		completionBlock?()
 	}
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@_functionBuilder struct TaskBuilder {
+@_functionBuilder public struct TaskBuilder {
 	static func buildBlock() -> Task {
 		return MultipleTasks(tasks: [])
 	}

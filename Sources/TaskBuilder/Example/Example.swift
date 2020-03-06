@@ -11,7 +11,7 @@ final class Example {
 	let queue: OperationQueue = .init()
 
 	func fetch() {
-		let task = imageTask { print($0) }
+		let task = imageTask { print($0!.description) }
 		queue.addTask(task)
 	}
 

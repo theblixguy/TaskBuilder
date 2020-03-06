@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class MultipleTasks: Task {
-	var tasks: [Task]
+internal final class MultipleTasks: Task {
+	let tasks: [Task]
 	var completionBlock: Completion
 	var completedTaskCount: Int = 0
 
@@ -19,7 +19,11 @@ final class MultipleTasks: Task {
 
 	func perform() {
 		for var task in tasks {
-			task.completionBlock = innerCompletionBlock
+			let _taskCompletionBlockCopy = task.completionBlock
+			task.completionBlock = { [weak self] in
+				_taskCompletionBlockCopy?()
+				self?.innerCompletionBlock()
+			}
 			task.perform()
 		}
 	}
